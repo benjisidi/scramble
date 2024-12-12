@@ -32,14 +32,16 @@ const getRandomWord = (words) => {
 };
 
 function App() {
+  const gameTime = 45000;
   const words = wordlistRaw.split("\n").filter((x) => x.length > 3);
   const [currentWord, setCurrentWord] = useState("");
+  const [prevWord, setPrevWord] = useState("");
   const [currentWordScrambled, setCurrentWordScrambled] = useState("");
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   const [skips, setSkips] = useState(3);
   const [timeup, setTimeup] = useState(false);
-  const [endTime, setEndTime] = useState(Date.now() + 30000);
+  const [endTime, setEndTime] = useState(Date.now() + gameTime);
   const countdownRef = useRef(null);
   const inputRef = useRef(null);
   const formMethods = useForm();
@@ -47,6 +49,7 @@ function App() {
     formMethods.register("unscrambled");
 
   const getNewWord = () => {
+    setPrevWord(currentWord);
     const { word, scrambled } = getRandomWord(words);
     setCurrentWord(word);
     setCurrentWordScrambled(scrambled);
@@ -59,8 +62,9 @@ function App() {
     setScore(0);
     setSkips(3);
     setTimeup(false);
-    setEndTime(Date.now() + 30000);
+    setEndTime(Date.now() + gameTime);
     getNewWord();
+    setPrevWord("");
   };
 
   const handleSkip = () => {
@@ -104,7 +108,6 @@ function App() {
   // Initialise game on render
   useEffect(() => {
     getNewWord();
-    console.log(inputRef);
   }, []);
 
   // Restart counter and refocus input on reset
@@ -117,6 +120,7 @@ function App() {
 
   return (
     <div className="flex flex-col">
+      <div className="text-xs text-neutral flex justify-start">{`Previous: ${prevWord}`}</div>
       <h1>{currentWordScrambled}</h1>
       <div className="flex space-x-2 mt-2 mx-auto">
         <div className="tabular-nums">{`Score: ${score}`}</div>
