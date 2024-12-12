@@ -78,7 +78,7 @@ function App() {
   };
 
   const onSubmit = (formData) => {
-    if (formData.unscrambled !== currentWord) {
+    if (formData.unscrambled.toLowerCase() !== currentWord) {
       formMethods.setError("unscrambled");
       return;
     }
