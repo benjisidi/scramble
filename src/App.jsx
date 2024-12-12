@@ -148,6 +148,13 @@ function App() {
       <button onClick={reset} className="btn btn-warning mt-2">
         Again!
       </button>
+      <div className="flex space-x-2 mt-2 uppercase small-caps items-center">
+        <kbd className="kbd text-xs">↵</kbd>
+        <span className="text-xs">guess</span>
+        <div className="divider divider-horizontal" />
+        <kbd className="kbd text-xs">space</kbd>
+        <span className="text-xs">skip</span>
+      </div>
     </div>
   );
 }
