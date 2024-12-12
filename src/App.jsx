@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 import { useForm } from "react-hook-form";
 import "./App.css";
-import wordlistRaw from "./assets/wordlist.txt?raw";
+import wordlistRaw from "./assets/words_3k.txt?raw";
 
 function shuffleArray(array) {
   for (var i = array.length - 1; i >= 0; i--) {
