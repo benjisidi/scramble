@@ -39,6 +39,7 @@ function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [prevWord, setPrevWord] = useState("");
   const [currentWordScrambled, setCurrentWordScrambled] = useState("");
+  const [unscrambled, setUnscrambled] = useState(false);
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(getHighScore());
   const [skips, setSkips] = useState(3);
@@ -60,13 +61,14 @@ function App() {
     formMethods.setFocus("unscrambled");
   };
 
-  const reset = () => {
+  const handleReset = () => {
     setScore(0);
     setSkips(3);
     setTimeup(false);
     setEndTime(Date.now() + gameTime);
     getNewWord();
     setPrevWord("");
+    setUnscrambled(false);
   };
 
   const handleSkip = () => {
@@ -74,6 +76,11 @@ function App() {
       setSkips((prev) => Math.max(prev - 1, 0));
       getNewWord();
     }
+  };
+
+  const handleUnscramble = () => {
+    setCurrentWordScrambled(currentWord);
+    setUnscrambled(true);
   };
 
   const handleKey = (e) => {
@@ -161,13 +168,23 @@ function App() {
             })}
           />
         </form>
-        <button
-          onClick={handleSkip}
-          disabled={skips === 0 || timeup}
-          className="btn btn-neutral tabular-nums"
-        >{`Skip (${skips})`}</button>
+        {timeup ? (
+          <button
+            onClick={handleUnscramble}
+            disabled={unscrambled}
+            className="btn btn-neutral"
+          >
+            Unscramble
+          </button>
+        ) : (
+          <button
+            onClick={handleSkip}
+            disabled={skips === 0}
+            className="btn btn-neutral tabular-nums"
+          >{`Skip (${skips})`}</button>
+        )}
       </div>
-      <button onClick={reset} className="btn btn-warning mt-2">
+      <button onClick={handleReset} className="btn btn-warning mt-2">
         Again!
       </button>
       <div className="flex space-x-2 mt-2 uppercase small-caps items-center">
