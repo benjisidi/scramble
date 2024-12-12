@@ -77,6 +77,16 @@ function App() {
     }
   };
 
+  // android keyboard events don't have a key, so we have to do this gross hack
+  const handleAndroidKey = (e) => {
+    if (e.key === "Unidentified") {
+      const inputValue = e.target.value;
+      if (inputValue.charAt(inputValue.length - 1) === " ") {
+        handleSkip();
+      }
+    }
+  };
+
   const onSubmit = (formData) => {
     if (formData.unscrambled.toLowerCase() !== currentWord) {
       formMethods.setError("unscrambled");
@@ -132,6 +142,7 @@ function App() {
             autoFocus
             disabled={timeup}
             onKeyDown={handleKey}
+            onKeyUp={handleAndroidKey}
             {...restFormMethods}
             autoComplete="off"
             className={clsx("input input-bordered", {
