@@ -34,6 +34,13 @@ body {
   min-height: 100vh;
 }
 
+@media only screen and (max-width: 800px) {
+  body {
+    place-items: start;
+  }
+}
+
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
