@@ -31,6 +31,8 @@ const getRandomWord = (words) => {
   return { word, scrambled };
 };
 
+const getHighScore = () => Number(localStorage.getItem("highScore")) || 0;
+
 function App() {
   const gameTime = 45000;
   const words = wordlistRaw.split("\n").filter((x) => x.length > 3);
@@ -38,7 +40,7 @@ function App() {
   const [prevWord, setPrevWord] = useState("");
   const [currentWordScrambled, setCurrentWordScrambled] = useState("");
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [highScore, setHighScore] = useState(getHighScore());
   const [skips, setSkips] = useState(3);
   const [timeup, setTimeup] = useState(false);
   const [endTime, setEndTime] = useState(Date.now() + gameTime);
@@ -118,9 +120,14 @@ function App() {
     inputRef.current?.focus();
   }, [endTime]);
 
+  // Report highscore to localstorage
+  useEffect(() => {
+    localStorage.setItem("highScore", highScore);
+  }, [highScore]);
+
   return (
     <div className="flex flex-col">
-      <div className="text-xs text-neutral flex justify-start">{`Previous: ${prevWord}`}</div>
+      <div className="text-xs flex justify-start">{`Previous: ${prevWord}`}</div>
       <h1>{currentWordScrambled}</h1>
       <div className="flex space-x-2 mt-2 mx-auto">
         <div className="tabular-nums">{`Score: ${score}`}</div>
