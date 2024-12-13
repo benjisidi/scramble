@@ -1359,7 +1359,6 @@ largely
 last
 late
 later
-Latin
 latter
 laugh
 launch
@@ -2276,7 +2275,6 @@ south
 southern
 Soviet
 space
-Spanish
 speak
 speaker
 special
