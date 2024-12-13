@@ -2221,7 +2221,6 @@ situation
 size
 skill
 skin
-slave
 sleep
 slice
 slide
