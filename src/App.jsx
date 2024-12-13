@@ -22,12 +22,18 @@ const scramble = (word) => {
 
 const getRandomWord = (words) => {
   const randomIndex = Math.floor(Math.random() * words.length);
-  const word = words[randomIndex];
+  let word = words[randomIndex];
   let scrambled = word;
   let attempts = 0;
   while (scrambled === word && attempts < 10) {
     scrambled = scramble(word);
     attempts += 1;
+  }
+  // We've found an unscramble-able word (eg "foot"), pick a new one
+  if (scrambled === word) {
+    const backup = getRandomWord(words);
+    word = backup.word;
+    scrambled = backup.scrambled;
   }
   return { word, scrambled };
 };
@@ -36,7 +42,9 @@ const getHighScore = () => Number(localStorage.getItem("highScore")) || 0;
 
 function App() {
   const gameTime = 45000;
-  const words = wordlistRaw.split("\n").filter((x) => x.length > 3);
+  const words = wordlistRaw
+    .split("\n")
+    .filter((x) => x.length > 3 && x.length <= 10);
   const [currentWord, setCurrentWord] = useState("");
   const [prevWord, setPrevWord] = useState("");
   const [currentWordScrambled, setCurrentWordScrambled] = useState("");
