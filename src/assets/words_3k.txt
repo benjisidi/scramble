@@ -329,7 +329,6 @@ camera
 camp
 campaign
 campus
-Canadian
 cancer
 candidate
 capability
@@ -351,7 +350,6 @@ cash
 cast
 catch
 category
-Catholic
 cause
 ceiling
 celebrate
@@ -1245,7 +1243,6 @@ indeed
 independence
 independent
 index
-Indian
 indicate
 indication
 individual
@@ -1556,7 +1553,6 @@ museum
 music
 musical
 musician
-Muslim
 must
 mutual
 myself
@@ -2146,7 +2142,6 @@ select
 selection
 self
 sell
-Senate
 senator
 send
 senior
@@ -2273,7 +2268,6 @@ soup
 source
 south
 southern
-Soviet
 space
 speak
 speaker
@@ -2577,7 +2571,6 @@ uniform
 union
 unique
 unit
-United
 universal
 universe
 university
