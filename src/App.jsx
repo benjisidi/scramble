@@ -27,6 +27,7 @@ const getRandomWord = (words) => {
   let attempts = 0;
   while (scrambled === word && attempts < 10) {
     scrambled = scramble(word);
+    attempts += 1;
   }
   return { word, scrambled };
 };
