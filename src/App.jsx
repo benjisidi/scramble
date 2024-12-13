@@ -205,7 +205,7 @@ const countdownRenderer = ({ seconds, completed }) => {
   }
   return (
     <span className="tabular-nums">
-      Time: {String(seconds).padStart(2, "0")}
+      Time: {String(seconds + 1).padStart(2, "0")}
     </span>
   );
 };
