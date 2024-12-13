@@ -142,7 +142,7 @@ function App() {
   }, [highScore]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-[304px] max-w-[304px]">
       <div className="text-xs flex justify-start">{`Previous: ${prevWord}`}</div>
       <h1>{currentWordScrambled}</h1>
       <div className="flex space-x-2 mt-2 mx-auto">
@@ -159,8 +159,8 @@ function App() {
           ref={countdownRef}
         />
       </div>
-      <div className="flex space-x-2 mt-2">
-        <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+      <div className="flex space-x-2 mt-2 grow">
+        <form onSubmit={formMethods.handleSubmit(onSubmit)} className="grow">
           <input
             ref={(e) => {
               rawInputRef(e);
@@ -172,7 +172,7 @@ function App() {
             onKeyUp={handleAndroidKey}
             {...restFormMethods}
             autoComplete="off"
-            className={clsx("input input-bordered", {
+            className={clsx("input input-bordered w-[calc(100%-7px)]", {
               "input-error": formMethods.formState.errors.unscrambled,
             })}
           />
