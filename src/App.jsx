@@ -20,6 +20,10 @@ const scramble = (word) => {
   return `${word.slice(0, 1)}${middle.join("")}${word.slice(-1)}`;
 };
 
+const sanitize = (guess) => {
+  return guess.toLowerCase().trim();
+};
+
 const getRandomWord = (words) => {
   const randomIndex = Math.floor(Math.random() * words.length);
   let word = words[randomIndex];
@@ -58,7 +62,8 @@ function App() {
   const inputRef = useRef(null);
   const formMethods = useForm();
   const { ref: rawInputRef, ...restFormMethods } =
-    formMethods.register("unscrambled");
+    formMethods.register("guess");
+  const currentGuess = formMethods.watch("guess");
 
   const getNewWord = () => {
     setPrevWord(currentWord);
@@ -67,7 +72,7 @@ function App() {
     setCurrentWordScrambled(scrambled);
     formMethods.clearErrors();
     formMethods.reset();
-    formMethods.setFocus("unscrambled");
+    formMethods.setFocus("guess");
   };
 
   const handleReset = () => {
@@ -80,7 +85,17 @@ function App() {
     setUnscrambled(false);
   };
 
-  const handleSkip = () => {
+  const handleSpacebar = () => {
+    if (timeup) {
+      handleUnscramble();
+    }
+    // Since some autocorrect will add a space to the end of the word, we'll
+    // first check whether the correct word has been typed and advance if so. If
+    // not, we'll try to skip.
+    if (sanitize(currentGuess) === currentWord) {
+      onSubmit({ guess: currentGuess.trim() });
+      return;
+    }
     if (skips > 0) {
       setSkips((prev) => Math.max(prev - 1, 0));
       getNewWord();
@@ -95,7 +110,7 @@ function App() {
   const handleKey = (e) => {
     if (e.code === "Space") {
       e.preventDefault();
-      handleSkip();
+      handleSpacebar();
     }
   };
 
@@ -104,14 +119,15 @@ function App() {
     if (e.key === "Unidentified") {
       const inputValue = e.target.value;
       if (inputValue.charAt(inputValue.length - 1) === " ") {
-        handleSkip();
+        e.preventDefault();
+        handleSpacebar();
       }
     }
   };
 
   const onSubmit = (formData) => {
-    if (formData.unscrambled.toLowerCase() !== currentWord) {
-      formMethods.setError("unscrambled");
+    if (sanitize(formData.guess) !== currentWord) {
+      formMethods.setError("guess");
       return;
     }
     setHighScore(Math.max(highScore, score + 1));
@@ -173,7 +189,7 @@ function App() {
             {...restFormMethods}
             autoComplete="off"
             className={clsx("input input-bordered w-[calc(100%-7px)]", {
-              "input-error": formMethods.formState.errors.unscrambled,
+              "input-error": formMethods.formState.errors.guess,
             })}
           />
         </form>
@@ -187,7 +203,7 @@ function App() {
           </button>
         ) : (
           <button
-            onClick={handleSkip}
+            onClick={handleSpacebar}
             disabled={skips === 0}
             className="btn btn-neutral tabular-nums"
           >{`Skip (${skips})`}</button>
